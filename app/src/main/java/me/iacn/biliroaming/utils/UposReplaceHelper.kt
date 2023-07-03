@@ -100,15 +100,15 @@ object UposReplaceHelper {
     fun String.isOverseaUpos() = isLocatedCn == contains(overseaVideoUposRegex)
 
     fun String.isNeedReplaceVideoUpos() =
-        if (contains(".mcdn.bilivideo") || contains(ipPCdnRegex)) {
-            // IP:Port type PCDN currently only exists in Live and Thai Video.
-            // Cannot simply replace IP:Port or 'mcdn.bilivideo' like PCDN's host
-            false
-        } else {
-            // only 'szbdyd.com' like PCDN can be replace
-            forceUpos || (enablePcdnBlock && contains("szbdyd.com")) || isOverseaUpos()
-        }
-
+    if (contains(ipPCdnRegex)) {
+        // IP:Port type PCDN currently only exists in Live and Thai Video.
+        // Cannot simply replace IP:Port like PCDN's host
+        false
+    } else {
+        // only 'szbdyd.com' like PCDN can be replace
+        forceUpos || (enablePcdnBlock && contains("szbdyd.com")) || isOverseaUpos()
+    }
+    
     fun String.replaceUpos(
         upos: String = videoUposBase, needReplace: Boolean = true
     ): String {
